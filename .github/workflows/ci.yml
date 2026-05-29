@@ -1,0 +1,54 @@
+name: build on PR
+
+on: 
+  push: 
+    branches: 
+      - '**' 
+  pull_request:
+      branches:
+            - '**'
+jobs: 
+    #FRONTEND JOB 
+    frontend:
+      name: frontend
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: frontend
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: setup Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 24
+            cache: 'npm'
+            cache-dependency-path: frontend/package-lock.json
+        - name: install dependencies
+          run: npm ci
+        - name: lint
+          run: npm run lint
+        - name: build
+          run: npm run build
+    
+    # BACKEND JOB
+    backend:
+      name: backend
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: backend
+      steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        - name: setup node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 24
+            cache: 'npm'
+            cache-dependency-path: 'backend/package-lock.json'
+        - name: install dependencies
+          uses: npm ci
+      
+
+  
