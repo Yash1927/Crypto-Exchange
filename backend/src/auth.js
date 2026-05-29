@@ -1,11 +1,7 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const express = require("express");
-const cors = require('cors')
-const app = express();
-
-app.use(express.json())
-app.use(cors())
+const router = express.Router()
 
 dotenv.config()
 
@@ -13,7 +9,7 @@ const SECRET_KEY = process.env.SECRET
 
 arr = []
 
-app.post('/signup', (req,res)=> {
+router.post('/signup', (req,res)=> {
     console.log(req.body)
     const name = req.body.name;
     const email = req.body.email;
@@ -24,7 +20,7 @@ app.post('/signup', (req,res)=> {
     res.json("data received")
 })
 
-app.post('/signin', (req, res)=> {
+router.post('/signin', (req, res)=> {
     console.log(req.body)
     const email = req.body.email;
     const password = req.body.password;
@@ -38,4 +34,4 @@ app.post('/signin', (req, res)=> {
     }
 })
 
-app.listen(3000)
+module.exports = router
